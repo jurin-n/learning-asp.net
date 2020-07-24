@@ -13,5 +13,11 @@ namespace WebApp
         {
 
         }
+
+        protected void LogIn(object sender, EventArgs e)
+        {
+            Console.WriteLine(UserId.Text);
+            Console.WriteLine(Password.Text);
+        }
     }
 }

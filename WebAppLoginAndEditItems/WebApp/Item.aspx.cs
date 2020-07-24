@@ -13,5 +13,11 @@ namespace WebApp
         {
 
         }
+        protected void AddOrEdit(object sender, EventArgs e)
+        {
+            Console.WriteLine(ItemId.Text);
+            Console.WriteLine(ItemName.Text);
+            Console.WriteLine(Description.Text);
+        }
     }
 }
