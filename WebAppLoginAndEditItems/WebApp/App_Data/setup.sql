@@ -31,7 +31,7 @@ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED
 GO
 
 CREATE TABLE [dbo].[Items](
-    [ItemID] [int] NOT NULL,  
+    [ItemID] [nvarchar](32) NOT NULL,  
     [Name] [nvarchar](50) NULL,  
     [Description] [nvarchar](512) NULL,
     [CreatedOn] [datetime] NOT NULL
@@ -45,3 +45,4 @@ GO
 
 --データ登録
 INSERT INTO Users (UserId,Name,Password,CreatedOn) Values('test-user','テストユーザ','test-password','2020-07-24');
+INSERT INTO Items (ItemID,Name,Description,CreatedOn) Values('ID001','アイテムあああ','aaa','2020-07-24');

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Transactions;
 
 namespace WebApp
 {
@@ -18,6 +15,46 @@ namespace WebApp
             Console.WriteLine(ItemId.Text);
             Console.WriteLine(ItemName.Text);
             Console.WriteLine(Description.Text);
+            /* 登録か更新か判定 */
+            //TODO:ロジック実装。
+
+            /* Item新規登録ロジック */
+            //ItemIdがすでに登録されてるかチェック
+            //TODO:ロジック実装。
+
+            //Item新規登録
+            try
+            {
+                String sql = "INSERT INTO Items (ItemID,Name,Description,CreatedOn) Values(@ItemID,@Name,@Description,@CreatedOn)";
+
+                //トランザクション開始
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
+                    {
+                        using (SqlCommand command = new SqlCommand(sql))
+                        {
+                            command.Parameters.AddWithValue("@ItemID", ItemId.Text);
+                            command.Parameters.AddWithValue("@Name", ItemName.Text);
+                            command.Parameters.AddWithValue("@Description", Description.Text);
+                            //TODO:CreatedOnに現在のDatetimeを取得しセットするロジックの実装。
+                            command.Parameters.AddWithValue("@CreatedOn", "2020-07-24");
+
+                            conn.Open();
+                            command.Connection = conn;
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    scope.Complete();
+                }
+            }
+            catch (TransactionAbortedException ex)
+            {
+                //TODO:入れるべきロジック検討中。
+                throw ex;
+            }
         }
     }
 }
