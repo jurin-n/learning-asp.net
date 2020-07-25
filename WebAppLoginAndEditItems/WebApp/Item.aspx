@@ -16,21 +16,37 @@
 </head>
 <body>
     <div class="container">
-        <form id="form1" runat="server">
-            <div class="form-group">
-                <p class="h4">Item ID</p>
-                <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="ItemId" placeholder="ID001" />
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <form id="form1" runat="server">
+                    <div class="form-group">
+                        <p class="h4">Item ID</p>
+                        <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="ItemId" placeholder="ID001" />
+                    </div>
+                    <div class="form-group">
+                        <p class="h4">名前</p>
+                        <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" Id="ItemName" placeholder="アイテム００１" />
+                    </div>
+                    <div class="form-group">
+                        <p class="h4">説明</p>
+                        <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="Description" rows="5" />
+                    </div>
+                    <asp:Button runat="server" OnClick="AddOrUpdate" Text="登録" CssClass="btn btn-primary btn-lg" Id="AddOrUpdateButton"/>
+                </form>
             </div>
-            <div class="form-group">
-                <p class="h4">名前</p>
-                <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" Id="ItemName" placeholder="アイテム００１" />
+        </div>
+        <div class="card" style="border: none;">
+            <div class="card-body">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">登録/更新しました。</h4>
+                    <p>追加メッセージほげほげ。</p>
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">登録/更新できませんでした。</h4>
+                    <p>追加メッセージああああ。</p>
+                </div>
             </div>
-            <div class="form-group">
-                <p class="h4">説明</p>
-                <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="Description" rows="5" />
-            </div>
-            <asp:Button runat="server" OnClick="AddOrEdit" Text="登録" CssClass="btn btn-primary"/>
-        </form>
+        </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
