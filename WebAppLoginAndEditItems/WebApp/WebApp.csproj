@@ -75,7 +75,8 @@
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.bundle.min.js" />
     <Content Include="Login.aspx" />
-    <Content Include="Message.ascx" />
+    <Content Include="Messages\ErrorMessage.ascx" />
+    <Content Include="Messages\SuccessMessage.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -98,12 +99,19 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Message.ascx.cs">
-      <DependentUpon>Message.ascx</DependentUpon>
+    <Compile Include="Messages\ErrorMessage.ascx.cs">
+      <DependentUpon>ErrorMessage.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Message.ascx.designer.cs">
-      <DependentUpon>Message.ascx</DependentUpon>
+    <Compile Include="Messages\ErrorMessage.ascx.designer.cs">
+      <DependentUpon>ErrorMessage.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Messages\SuccessMessage.ascx.cs">
+      <DependentUpon>SuccessMessage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Messages\SuccessMessage.ascx.designer.cs">
+      <DependentUpon>SuccessMessage.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

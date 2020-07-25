@@ -8,6 +8,9 @@ namespace WebApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            SuccessMessage01.Visible = false;
+            ErrorMessage01.Visible = false;
+
             //ログインチェック
             //TODO:ログインチェック処理を別クラスに抽出
             if (Session["UserId"] == null || Session["UserId"].ToString().Trim().Length == 0)
@@ -71,18 +74,35 @@ namespace WebApp
         protected void AddItem()
         {
             //ItemIdが登録されていないことをチェック
-            //TODO:ロジック実装。
+            using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
+            {
+                String selectSql = "SELECT COUNT(*) FROM Items WHERE ItemID=@ItemID";
+                using (SqlCommand command = new SqlCommand(selectSql))
+                {
+                    command.Parameters.AddWithValue("@ItemID", ItemId.Text);
+
+                    conn.Open();
+                    command.Connection = conn;
+                    if ((int)command.ExecuteScalar() >= 1)
+                    {
+                        //ItemIdが登録されているためエラー。
+                        //メッセージ表示
+                        ErrorMessage01.Visible = true;
+                        return;
+                    }
+                }
+            }
 
             try
             {
-                String sql = "INSERT INTO Items (ItemID,Name,Description,CreatedOn) Values(@ItemID,@Name,@Description,@CreatedOn)";
+                String insertSql = "INSERT INTO Items (ItemID,Name,Description,CreatedOn) Values(@ItemID,@Name,@Description,@CreatedOn)";
 
                 //トランザクション開始
                 using (TransactionScope scope = new TransactionScope())
                 {
                     using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
                     {
-                        using (SqlCommand command = new SqlCommand(sql))
+                        using (SqlCommand command = new SqlCommand(insertSql))
                         {
                             command.Parameters.AddWithValue("@ItemID", ItemId.Text);
                             command.Parameters.AddWithValue("@Name", ItemName.Text);
@@ -107,7 +127,7 @@ namespace WebApp
             }
 
             //メッセージ表示
-            Message01.Visible = true;
+            SuccessMessage01.Visible = true;
         }
 
         /* Item更新 */
@@ -160,7 +180,7 @@ namespace WebApp
             }
 
             //メッセージ表示
-            Message01.Visible = true;
+            SuccessMessage01.Visible = true;
         }
     }
 }

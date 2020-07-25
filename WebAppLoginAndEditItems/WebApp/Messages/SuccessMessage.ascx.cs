@@ -5,12 +5,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WebApp
+namespace WebApp.Messages
 {
-    public partial class Message : System.Web.UI.UserControl
+    public partial class SuccessMessage : System.Web.UI.UserControl
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
         }
     }
 }

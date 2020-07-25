@@ -60,12 +60,21 @@ namespace WebApp
         protected global::System.Web.UI.WebControls.Button AddOrUpdateButton;
 
         /// <summary>
-        /// Message01 コントロール。
+        /// SuccessMessage01 コントロール。
         /// </summary>
         /// <remarks>
         /// 自動生成されたフィールド。
         /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
         /// </remarks>
-        protected global::WebApp.Message Message01;
+        protected global::WebApp.Messages.SuccessMessage SuccessMessage01;
+
+        /// <summary>
+        /// ErrorMessage01 コントロール。
+        /// </summary>
+        /// <remarks>
+        /// 自動生成されたフィールド。
+        /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+        /// </remarks>
+        protected global::WebApp.Messages.ErrorMessage ErrorMessage01;
     }
 }

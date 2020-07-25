@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Item.aspx.cs" Inherits="WebApp.Item" %>
-<%@ Register Src="Message.ascx" TagPrefix="uc1" TagName="Message" %>  
+<%@ Register Src="Messages/SuccessMessage.ascx" TagPrefix="uc1" TagName="SuccessMessage" %>  
+<%@ Register Src="Messages/ErrorMessage.ascx" TagPrefix="uc1" TagName="ErrorMessage" %>  
   
 <!DOCTYPE html>
 
@@ -38,7 +39,8 @@
         </div>
         <div class="card" style="border: none;">
             <div class="card-body">
-                <uc1:Message ID="Message01" Visible="false" runat="server"/>
+                <uc1:SuccessMessage ID="SuccessMessage01" runat="server"/>
+                <uc1:ErrorMessage ID="ErrorMessage01" runat="server"/>
             </div>
         </div>
     </div>

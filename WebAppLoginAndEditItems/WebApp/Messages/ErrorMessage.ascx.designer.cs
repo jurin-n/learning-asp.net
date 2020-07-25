@@ -7,11 +7,11 @@
 // </自動生成>
 //------------------------------------------------------------------------------
 
-namespace WebApp
+namespace WebApp.Messages
 {
 
 
-    public partial class Message
+    public partial class ErrorMessage
     {
     }
 }
