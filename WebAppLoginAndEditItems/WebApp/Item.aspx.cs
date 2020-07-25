@@ -88,6 +88,7 @@ namespace WebApp
                         //ItemIdが登録されているためエラー。
                         //メッセージ表示
                         ErrorMessage01.Visible = true;
+                        ErrorMessage01.Action = "登録";
                         return;
                     }
                 }
@@ -128,6 +129,7 @@ namespace WebApp
 
             //メッセージ表示
             SuccessMessage01.Visible = true;
+            SuccessMessage01.Action = "登録";
         }
 
         /* Item更新 */
@@ -181,6 +183,8 @@ namespace WebApp
 
             //メッセージ表示
             SuccessMessage01.Visible = true;
+            SuccessMessage01.Action = "更新";
+
         }
     }
 }
