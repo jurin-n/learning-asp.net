@@ -105,6 +105,9 @@ namespace WebApp
                 //TODO:入れるべきロジック検討中。
                 throw ex;
             }
+
+            //メッセージ表示
+            Message01.Visible = true;
         }
 
         /* Item更新 */
@@ -155,6 +158,9 @@ namespace WebApp
                 //TODO:入れるべきロジック検討中。
                 throw ex;
             }
+
+            //メッセージ表示
+            Message01.Visible = true;
         }
     }
 }

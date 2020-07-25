@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Item.aspx.cs" Inherits="WebApp.Item" %>
-
+<%@ Register Src="Message.ascx" TagPrefix="uc1" TagName="Message" %>  
+  
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -37,14 +38,7 @@
         </div>
         <div class="card" style="border: none;">
             <div class="card-body">
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">登録/更新しました。</h4>
-                    <p>追加メッセージほげほげ。</p>
-                </div>
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">登録/更新できませんでした。</h4>
-                    <p>追加メッセージああああ。</p>
-                </div>
+                <uc1:Message ID="Message01" Visible="false" runat="server"/>
             </div>
         </div>
     </div>
