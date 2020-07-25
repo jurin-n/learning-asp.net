@@ -8,7 +8,12 @@ namespace WebApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //ログインチェック
+            //TODO:ログインチェック処理を別クラスに抽出
+            if (Session["UserId"] == null || Session["UserId"].ToString().Trim().Length == 0)
+            {
+                Response.Redirect("Login.aspx");
+            }
         }
         protected void AddOrEdit(object sender, EventArgs e)
         {

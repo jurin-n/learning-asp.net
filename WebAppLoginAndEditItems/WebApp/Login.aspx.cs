@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace WebApp
 {
@@ -29,9 +24,13 @@ namespace WebApp
             switch (result)
             {
                 case 0:
+                    //認証成功した場合
+                    Session["UserId"] = UserId.Text;
+                    Response.Redirect("Item.aspx");
                     break;
                 case -1:
                 default:
+                    //認証失敗した場合
                     break;
                     /*
                     case SignInStatus.Success:
