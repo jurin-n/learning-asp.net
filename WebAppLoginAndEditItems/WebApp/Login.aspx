@@ -13,24 +13,31 @@
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
     <title></title>
+    <style>
+        html,body {
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center align-items-center" style="height:100vh">
-            <div class="col-4">
-                <div class="login-box col-md-12">
-                    <h3 class="text-center pt-5">Login form</h3>
-                    <form id="form1" runat="server" autocomplete="off">
-                        <div class="form-group">
-                            <label for="userId">ユーザID</label>
-                            <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="UserId"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <asp:TextBox runat="server" TextMode="password" CssClass="form-control" ID="Password" />
-                        </div>
-                        <asp:Button runat="server" OnClick="LogIn" Text="ログイン" CssClass="btn btn-primary" />
-                    </form>
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col my-auto">
+                <div class="card mx-auto" style="width: 30rem;height: 28rem;">
+                    <div class="card-body" >
+                        <h3 class="text-center pt-5">Login form</h3>
+                        <form id="form1" runat="server" autocomplete="off">
+                            <div class="form-group">
+                                <label for="userId">ユーザID</label>
+                                <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="UserId"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <asp:TextBox runat="server" TextMode="password" CssClass="form-control" ID="Password" />
+                            </div>
+                            <asp:Button runat="server" OnClick="LogIn" Text="ログイン" CssClass="btn btn-primary" />
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
