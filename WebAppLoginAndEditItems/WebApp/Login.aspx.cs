@@ -11,8 +11,9 @@ namespace WebApp
 
         protected void LogIn(object sender, EventArgs e)
         {
-            Console.WriteLine(UserId.Text);
-            Console.WriteLine(Password.Text);
+            //System.Diagnostics.Debug.WriteLine(Request.Form["UserId"]);
+            //System.Diagnostics.Debug.WriteLine(Request.Form["Password"]);
+            //System.Diagnostics.Debug.WriteLine(Request.Form["test01"]); //name="test01" のinputタグを設定すること前提。
 
             if (!IsValid)
             {
