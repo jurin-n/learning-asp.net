@@ -42,6 +42,39 @@ CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED
   
 GO
 
+CREATE TABLE [dbo].[Orders](
+    [OrderID] [nvarchar](32) NOT NULL,
+    [CreatedOn] [datetime] NOT NULL
+CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED   
+(  
+[OrderID] ASC  
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]  
+
+GO
+
+CREATE TABLE [dbo].[Orders_Items](
+    [OrderID] [nvarchar](32) NOT NULL,
+    [ItemID] [nvarchar](32) NOT NULL,  
+    [Quantity] [int] NOT NULL
+CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED   
+(  
+[OrderID] ASC,
+[ItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]  
+
+GO
+
+ALTER TABLE [Orders_Items]
+   ADD CONSTRAINT FK_Orders_Items_01 FOREIGN KEY (OrderID)
+      REFERENCES [Orders] (OrderID)
+
+GO
+
+ALTER TABLE [Orders_Items]
+   ADD CONSTRAINT FK_Orders_Items_02 FOREIGN KEY (ItemID)
+      REFERENCES [Items] (ItemID)
+
+GO
 
 --データ登録
 INSERT INTO Users (UserId,Name,Password,CreatedOn) Values('test-user','テストユーザ','test-password','2020-07-24');

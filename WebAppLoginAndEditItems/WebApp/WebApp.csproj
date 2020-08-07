@@ -78,6 +78,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Messages\ErrorMessage.ascx" />
     <Content Include="Messages\SuccessMessage.ascx" />
+    <Content Include="Order.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +114,13 @@
     </Compile>
     <Compile Include="Messages\SuccessMessage.ascx.designer.cs">
       <DependentUpon>SuccessMessage.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Order.aspx.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Order.aspx.designer.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
