@@ -15,62 +15,79 @@
                         </div>
                         <div class="form-group">
                             <p class="h4">アイテム項目</p>
-                            <div id="item-columns">
-                                <div class="item-columns-header border-top border-bottom border-light-2">
-                                    <div class="row py-3">
-                                        <div class="col-2 col-lg-1">
-                                            No
+                            <asp:ListView runat="server"
+                                SelectMethod="GetItems"
+                                ItemType="WebApp.Models.Item" 
+                            >
+                                <LayoutTemplate>
+                                    <div id="item-columns">
+                                        <div class="item-columns-header border-top border-bottom border-light-2">
+                                            <div class="row py-3">
+                                                <div class="col-2 col-lg-1">
+                                                    No
+                                                </div>
+                                                <div class="col-3 col-lg-4">
+                                                    アイテムID
+                                                </div>
+                                                <div class="col">
+                                                    名称
+                                                </div>
+                                                <div class="col">
+                                                    数量
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-3 col-lg-4">
-                                            アイテムID
+                                        <div class="item-columns-body mb-3">
+                                            <span runat="server" id="itemPlaceholder" />
                                         </div>
-                                        <div class="col">
-                                            名称
+                                        <div class="item-columns-footer">
+                                            <div id="parent-of-addrow" class="parent-of-addrow">
+                                                <a id="item-columns-addrow" class="btn btn-outline-primary btn-sm">
+                                                    + Add 5 rows
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            数量
+                                        <div class="item-column-template d-none">
+                                            <!-- Add 5 rowsボタンで利用するHTMLテンプレート -->
+                                            <div class="row my-1">
+                                                <div class="col-2 col-lg-1">
+                                                    <input type="text" name="xxx-rnnn-ItemNo" value="" class="form-control form-control-sm" />
+                                                </div>
+                                                <div class="col-3 col-lg-4">
+                                                    <input type="text" name="xxx-rnnn-ItemId" value="" class="form-control form-control-sm"/>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" name="xxx-rnnn-ItemName" value="" class="form-control form-control-sm"/>
+                                                </div>
+                                                <div class="col">
+                                                    <select name="xxx-rnnn-ItemName" class="form-control form-control-sm">
+                                                        <option value="5">5</option>
+                                                        <option value="10">10</option>
+                                                        <option value="15">15</option>
+                                                        <option value="20">20</option>
+                                                        <option value="25">25</option>
+                                                        <option value="30">30</option>
+                                                    </select>                          
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="item-columns-body mb-3">
+                                </LayoutTemplate>
+                                <ItemTemplate>
                                     <div class="row my-1">
                                         <div class="col-2 col-lg-1">
                                             <input type="text" name="xxx-rnnn-ItemNo" value="" class="form-control form-control-sm" />
                                         </div>
                                         <div class="col-3 col-lg-4">
-                                            <input type="text" name="xxx-rnnn-ItemId" value="" class="form-control form-control-sm"/>
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" name="xxx-rnnn-ItemName" value="" class="form-control form-control-sm"/>
-                                        </div>
-                                        <div class="col">
-                                            <select name="xxx-r4-ItemType" class="form-control form-control-sm">
-                                                <option value="5">5</option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="25">25</option>
-                                                <option value="30">30</option>
-                                            </select> 
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="item-columns-footer">
-                                    <div id="parent-of-addrow" class="parent-of-addrow">
-                                        <a id="item-columns-addrow" class="btn btn-outline-primary btn-sm">
-                                            + Add 5 rows
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="item-column-template d-none">
-                                    <div class="row my-1">
-                                        <div class="col-2 col-lg-1">
-                                            <input type="text" name="xxx-rnnn-ItemNo" value="" class="form-control form-control-sm" />
-                                        </div>
-                                        <div class="col-3 col-lg-4">
-                                            <input type="text" name="xxx-rnnn-ItemId" value="" class="form-control form-control-sm"/>
+                                            <input type="text" name="xxx-rnnn-ItemId" value="<%#: Item.ItemId %>" class="form-control form-control-sm"/>
+                                            <%--
+                                            asp:TextBox を使うとinputタグのname属性がASP.NETで自動採番される。
+                                        　　このため、Add 5 rowsボタンクリックでJavaScriptつかって追加したカラムの
+                                            inputタグに設定するname属性をASP.NETのルールにしないといけないが
+                                            どういったルールかわからない。
+                                            このため、asp:TextBox使わずHTMLのinputタグを直接使う方がよさそう。
+                                            <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control form-control-sm" Id="ItemName" placeholder="アイテム００１" />
+                                            --%>
                                         </div>
                                         <div class="col">
                                             <input type="text" name="xxx-rnnn-ItemName" value="" class="form-control form-control-sm"/>
@@ -86,9 +103,8 @@
                                             </select>                          
                                         </div>
                                     </div>
-                                </div>
-
-                            </div>
+                                </ItemTemplate>
+                            </asp:ListView>
                         </div>
                     </form>
                 </div>
