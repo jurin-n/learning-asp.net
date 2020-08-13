@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebApp
+namespace WebApp.Views
 {
     public partial class Login : System.Web.UI.Page
     {
@@ -27,7 +27,7 @@ namespace WebApp
                 case 0:
                     //認証成功した場合
                     Session["UserId"] = UserId.Text;
-                    Response.Redirect("Item.aspx");
+                    Response.Redirect("/items");
                     break;
                 case -1:
                 default:

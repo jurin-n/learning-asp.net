@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Transactions;
 
-namespace WebApp
+namespace WebApp.Views
 {
     public partial class Item : System.Web.UI.Page
     {

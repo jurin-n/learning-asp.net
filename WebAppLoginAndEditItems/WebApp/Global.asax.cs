@@ -22,6 +22,23 @@ namespace WebApp
                 , "orders/{orderId}"
                 , "~/Views/Order.aspx"
                 );
+
+            RouteTable.Routes.MapPageRoute(
+                 "loginPage"
+                , "login"
+                , "~/Views/Login.aspx"
+                );
+
+            RouteTable.Routes.MapPageRoute(
+                 "itemPage"
+                , "items"
+                , "~/Views/Item.aspx"
+                );
+            RouteTable.Routes.MapPageRoute(
+                 "itemPage2"
+                , "items/{itemId}"
+                , "~/Views/Item.aspx"
+                );
         }
     }
 }
