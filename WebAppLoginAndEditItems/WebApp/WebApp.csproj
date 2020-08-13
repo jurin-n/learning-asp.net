@@ -80,7 +80,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Messages\ErrorMessage.ascx" />
     <Content Include="Messages\SuccessMessage.ascx" />
-    <Content Include="Order.aspx" />
+    <Content Include="Views\Order.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -118,11 +118,11 @@
       <DependentUpon>SuccessMessage.ascx</DependentUpon>
     </Compile>
     <Compile Include="Models\Item.cs" />
-    <Compile Include="Order.aspx.cs">
+    <Compile Include="Views\Order.aspx.cs">
       <DependentUpon>Order.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Order.aspx.designer.cs">
+    <Compile Include="Views\Order.aspx.designer.cs">
       <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

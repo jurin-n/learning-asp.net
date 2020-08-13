@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApp.Models;
 
-namespace WebApp
+namespace WebApp.Views
 {
     public partial class Order : System.Web.UI.Page
     {

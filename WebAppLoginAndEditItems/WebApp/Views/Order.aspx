@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Order.aspx.cs" Inherits="WebApp.Order" %>
-<%@ Register Src="Messages/SuccessMessage.ascx" TagPrefix="uc1" TagName="SuccessMessage" %>  
-<%@ Register Src="Messages/ErrorMessage.ascx" TagPrefix="uc1" TagName="ErrorMessage" %>  
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Order.aspx.cs" Inherits="WebApp.Views.Order" %>
+<%@ Register Src="~/Messages/SuccessMessage.ascx" TagPrefix="uc1" TagName="SuccessMessage" %>  
+<%@ Register Src="~/Messages/ErrorMessage.ascx" TagPrefix="uc1" TagName="ErrorMessage" %>  
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <!-- Main Content -->
