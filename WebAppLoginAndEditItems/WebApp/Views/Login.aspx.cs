@@ -27,7 +27,7 @@ namespace WebApp.Views
                 case 0:
                     //認証成功した場合
                     Session["UserId"] = UserId.Text;
-                    Response.Redirect("/items");
+                    Response.Redirect("items");
                     break;
                 case -1:
                 default:
