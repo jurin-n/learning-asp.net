@@ -47,39 +47,15 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="item-column-template d-none">
-                                            <!-- Add 5 rowsボタンで利用するHTMLテンプレート -->
-                                            <div class="row my-1">
-                                                <div class="col-2 col-lg-1">
-                                                    <input type="text" name="xxx-rnnn-ItemNo" value="" class="form-control form-control-sm" />
-                                                </div>
-                                                <div class="col-3 col-lg-4">
-                                                    <input type="text" name="xxx-rnnn-ItemId" value="" class="form-control form-control-sm"/>
-                                                </div>
-                                                <div class="col">
-                                                    <input type="text" name="xxx-rnnn-ItemName" value="" class="form-control form-control-sm"/>
-                                                </div>
-                                                <div class="col">
-                                                    <select name="xxx-rnnn-ItemName" class="form-control form-control-sm">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="15">15</option>
-                                                        <option value="20">20</option>
-                                                        <option value="25">25</option>
-                                                        <option value="30">30</option>
-                                                    </select>                          
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </LayoutTemplate>
                                 <ItemTemplate>
                                     <div class="row my-1">
                                         <div class="col-2 col-lg-1">
-                                            <input type="text" name="xxx-rnnn-ItemNo" value="" class="form-control form-control-sm" />
+                                            <input type="text" name="ItemNo" value="<%#: Item.No %>" class="form-control form-control-sm" />
                                         </div>
                                         <div class="col-3 col-lg-4">
-                                            <input type="text" name="xxx-rnnn-ItemId" value="<%#: Item.ItemId %>" class="form-control form-control-sm"/>
+                                            <input type="text" name="ItemId" value="<%#: Item.Id %>" class="form-control form-control-sm"/>
                                             <%--
                                             asp:TextBox を使うとinputタグのname属性がASP.NETで自動採番される。
                                         　　このため、Add 5 rowsボタンクリックでJavaScriptつかって追加したカラムの
@@ -90,23 +66,48 @@
                                             --%>
                                         </div>
                                         <div class="col">
-                                            <input type="text" name="xxx-rnnn-ItemName" value="" class="form-control form-control-sm"/>
+                                            <input type="text" name="ItemName" value="<%#: Item.Name %>" class="form-control form-control-sm"/>
                                         </div>
                                         <div class="col">
-                                            <select name="xxx-rnnn-ItemName" class="form-control form-control-sm">
-                                                <option value="5">5</option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="25">25</option>
-                                                <option value="30">30</option>
+                                            <select name="ItemQuantity" class="form-control form-control-sm">
+                                                <option value="5"  <%#: getSelected(5, Item.Quantity) %>>5</option>
+                                                <option value="10" <%#: getSelected(10, Item.Quantity) %>>10</option>
+                                                <option value="15" <%#: getSelected(15, Item.Quantity) %>>15</option>
+                                                <option value="20" <%#: getSelected(20, Item.Quantity) %>>20</option>
+                                                <option value="25" <%#: getSelected(25, Item.Quantity) %>>25</option>
+                                                <option value="30" <%#: getSelected(30, Item.Quantity) %>>30</option>
                                             </select>                          
                                         </div>
                                     </div>
                                 </ItemTemplate>
                             </asp:ListView>
                         </div>
+                        <asp:Button runat="server" OnClick="AddOrUpdate" Text="登録" CssClass="btn btn-primary btn-lg" Id="AddOrUpdateButton"/>
                     </form>
+                    <div class="d-none" id="html-template-001">
+                        <!-- Add 5 rowsボタンで利用するHTMLテンプレート -->
+                        <div class="row my-1">
+                            <div class="col-2 col-lg-1">
+                                <input type="text" name="ItemNo" value="" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-3 col-lg-4">
+                                <input type="text" name="ItemId" value="" class="form-control form-control-sm"/>
+                            </div>
+                            <div class="col">
+                                <input type="text" name="ItemName" value="" class="form-control form-control-sm"/>
+                            </div>
+                            <div class="col">
+                                <select name="ItemQuantity" class="form-control form-control-sm">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                    <option value="30">30</option>
+                                </select>                          
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,13 +116,7 @@
         // Add Rowボタンの処理
         $( "#item-columns>.item-columns-footer a" ).on( "click", function() {
             //テンプレート取得
-            let template = $(this)
-                            .parent()
-                                .parent()
-                                    .parent()
-                                        .children(".item-column-template")
-                                            .children()
-                                                .clone();
+            let template = $("#html-template-001").children().clone();
 
             //テンプレート加工
             let count = $(this)
@@ -134,9 +129,10 @@
                 let newIndex = count + i + 1;
                 let newItem = template.clone();
 
-                newItem.find("[name^='xxx-rnnn-']").each(function(){
-                    $(this).attr('name',$(this).attr('name').replace('xxx-rnnn-','xxx-r'+newIndex.toString() +'-'));
-                });
+                //newItem.find("[name^='xxx-rnnn-']").each(function(){
+                //    $(this).attr('name',$(this).attr('name').replace('xxx-rnnn-','xxx-r'+newIndex.toString() +'-'));
+                //});
+
                 //テンプレートを一覧の下に挿入
                 $(this)
                     .parent()

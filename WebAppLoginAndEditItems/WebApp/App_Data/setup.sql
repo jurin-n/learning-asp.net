@@ -54,9 +54,10 @@ GO
 
 CREATE TABLE [dbo].[Orders_Items](
     [OrderID] [nvarchar](32) NOT NULL,
-    [ItemID] [nvarchar](32) NOT NULL,  
+    [ItemID] [nvarchar](32) NOT NULL,
+    [No] [int] NOT NULL,
     [Quantity] [int] NOT NULL
-CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED   
+CONSTRAINT [PK_Orders_Items] PRIMARY KEY CLUSTERED   
 (  
 [OrderID] ASC,
 [ItemID] ASC

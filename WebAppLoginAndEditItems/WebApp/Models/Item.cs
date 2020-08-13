@@ -7,10 +7,16 @@ namespace WebApp.Models
 {
     public class Item
     {
-        public Item(String ItemId) {
-            this.ItemId = ItemId;
+        public Item(int No, String Id, String name, int Quantity) {
+            this.No = No;
+            this.Id = Id;
+            this.Name = name;
+            this.Quantity = Quantity;
         }
 
-        public String ItemId { get; set; }
+        public int No { get; set; }
+        public String Id { get; set; }
+        public String Name { get; set; }
+        public int Quantity { get; set; }
     }
 }
