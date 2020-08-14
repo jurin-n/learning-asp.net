@@ -19,74 +19,97 @@
                         </div>
                         <div class="form-group">
                             <p class="h4">項目</p>
-                            <asp:ListView runat="server"
-                                SelectMethod="GetItems"
-                                ItemType="WebApp.Models.Item" 
-                            >
-                                <LayoutTemplate>
-                                    <div id="item-columns">
-                                        <div class="item-columns-header border-top border-bottom border-light-2">
-                                            <div class="row py-3">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">個別入力</a>
+                                    <a class="nav-item nav-link" id="nav-textarea-tab" data-toggle="tab" href="#nav-textarea" role="tab" aria-controls="nav-textarea" aria-selected="false">一括入力</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    <asp:ListView runat="server"
+                                        SelectMethod="GetItems"
+                                        ItemType="WebApp.Models.Item" 
+                                    >
+                                        <LayoutTemplate>
+                                            <div id="item-columns" class="my-1">
+                                                <div class="item-columns-header border-bottom border-light-2">
+                                                    <div class="row py-3">
+                                                        <div class="col-2 col-lg-1">
+                                                            No
+                                                        </div>
+                                                        <div class="col-2 col-lg-2">
+                                                            項目ID
+                                                        </div>
+                                                        <div class="col">
+                                                            名称
+                                                        </div>
+                                                        <div class="col-3">
+                                                            説明
+                                                        </div>
+                                                        <div class="col">
+                                                            データ型
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-columns-body mb-3">
+                                                    <span runat="server" id="itemPlaceholder" />
+                                                </div>
+                                                <div class="item-columns-footer">
+                                                    <div id="parent-of-addrow" class="parent-of-addrow">
+                                                        <a id="item-columns-addrow" class="btn btn-outline-primary btn-sm">
+                                                            + Add 5 rows
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </LayoutTemplate>
+                                        <ItemTemplate>
+                                            <div class="row my-1">
                                                 <div class="col-2 col-lg-1">
-                                                    No
+                                                    <input type="text" name="ItemNo" value="<%#: Item.No %>" class="form-control form-control-sm" />
                                                 </div>
                                                 <div class="col-2 col-lg-2">
-                                                    項目ID
+                                                    <input type="text" name="ItemId" value="<%#: Item.Id %>" class="form-control form-control-sm"/>
+                                                    <%--
+                                                    asp:TextBox を使うとinputタグのname属性がASP.NETで自動採番される。
+                                        　　        このため、Add 5 rowsボタンクリックでJavaScriptつかって追加したカラムの
+                                                    inputタグに設定するname属性をASP.NETのルールにしないといけないが
+                                                    どういったルールかわからない。
+                                                    このため、asp:TextBox使わずHTMLのinputタグを直接使う方がよさそう。
+                                                    <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control form-control-sm" Id="ItemName" placeholder="アイテム００１" />
+                                                    --%>
                                                 </div>
                                                 <div class="col">
-                                                    名称
+                                                    <input type="text" name="ItemName" value="<%#: Item.Name %>" class="form-control form-control-sm"/>
                                                 </div>
                                                 <div class="col-3">
-                                                    説明
+                                                    <textarea name="ItemDescription" rows="3" class="form-control form-control-sm"><%#: Item.Description %></textarea>
                                                 </div>
                                                 <div class="col">
-                                                    データ型
+                                                    <select name="ItemType" class="form-control form-control-sm">
+                                                        <option value="NVARCHAR"  <%#: getSelected("NVARCHAR", Item.Type) %>>NVARCHAR</option>
+                                                        <option value="NUMBER" <%#: getSelected("NUMBER", Item.Type) %>>NUMBER</option>
+                                                    </select>                          
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="item-columns-body mb-3">
-                                            <span runat="server" id="itemPlaceholder" />
-                                        </div>
-                                        <div class="item-columns-footer">
-                                            <div id="parent-of-addrow" class="parent-of-addrow">
-                                                <a id="item-columns-addrow" class="btn btn-outline-primary btn-sm">
-                                                    + Add 5 rows
-                                                </a>
+                                        </ItemTemplate>
+                                    </asp:ListView>
+                                </div>
+                                <div class="tab-pane fade" id="nav-textarea" role="tabpanel" aria-labelledby="nav-textarea-tab">
+                                    <div class="my-1">
+                                        <asp:Button runat="server" OnClick="ColumnsBulkRegistration" Text="一括入力内容反映" CssClass="btn btn-secondary btn-sm" Id="ColumnsBulkRegistrationButton"/>
+                                        <div class="row my-1">
+                                            <div class="col-6">
+                                                <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="BulkRegistration" rows="10" />
+                                            </div>
+                                            <div class="col-6">
+                                                左の入力欄に項目を改行区切りで入力。
                                             </div>
                                         </div>
                                     </div>
-                                </LayoutTemplate>
-                                <ItemTemplate>
-                                    <div class="row my-1">
-                                        <div class="col-2 col-lg-1">
-                                            <input type="text" name="ItemNo" value="<%#: Item.No %>" class="form-control form-control-sm" />
-                                        </div>
-                                        <div class="col-2 col-lg-2">
-                                            <input type="text" name="ItemId" value="<%#: Item.Id %>" class="form-control form-control-sm"/>
-                                            <%--
-                                            asp:TextBox を使うとinputタグのname属性がASP.NETで自動採番される。
-                                        　　このため、Add 5 rowsボタンクリックでJavaScriptつかって追加したカラムの
-                                            inputタグに設定するname属性をASP.NETのルールにしないといけないが
-                                            どういったルールかわからない。
-                                            このため、asp:TextBox使わずHTMLのinputタグを直接使う方がよさそう。
-                                            <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control form-control-sm" Id="ItemName" placeholder="アイテム００１" />
-                                            --%>
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" name="ItemName" value="<%#: Item.Name %>" class="form-control form-control-sm"/>
-                                        </div>
-                                        <div class="col-3">
-                                            <textarea name="ItemDescription" rows="3" class="form-control form-control-sm"><%#: Item.Description %></textarea>
-                                        </div>
-                                        <div class="col">
-                                            <select name="ItemType" class="form-control form-control-sm">
-                                                <option value="NVARCHAR"  <%#: getSelected("NVARCHAR", Item.Type) %>>NVARCHAR</option>
-                                                <option value="NUMBER" <%#: getSelected("NUMBER", Item.Type) %>>NUMBER</option>
-                                            </select>                          
-                                        </div>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:ListView>
+                                </div>
+                            </div>
                         </div>
                         <asp:Button runat="server" OnClick="AddOrUpdate" Text="登録" CssClass="btn btn-primary btn-lg" Id="AddOrUpdateButton"/>
                     </form>

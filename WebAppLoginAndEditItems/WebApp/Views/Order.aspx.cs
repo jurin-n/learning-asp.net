@@ -191,5 +191,55 @@ namespace WebApp.Views
         private void UpdateOrder()
         {
         }
+        protected void ColumnsBulkRegistration(object sender, EventArgs e)
+        {
+            String[] columns = BulkRegistration.Text.Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
+            var items = new Dictionary<String, Models.Item>();
+
+            foreach (String c in columns)
+            {
+                items.Add(c,null);
+            }
+
+            var list = new List<String>();
+            using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
+            {
+                conn.Open();
+
+                String sql = @"
+                        SELECT
+                             ItemID
+                            ,(CASE WHEN Name IS NULL THEN '' ELSE Name END) AS NAME
+                            ,(CASE WHEN Description IS NULL THEN '' ELSE Description END) AS Description
+                            ,(CASE WHEN Type IS NULL THEN 'NVARCHAR' ELSE Type END) AS Type
+                        FROM Items WHERE ItemID IN(@0,@1,@2,@3,@4)
+                        ";
+
+
+                //String sql = "SELECT ItemID FROM Items WHERE ItemID IN('ID001','ID002')";
+                using (SqlCommand command = new SqlCommand(sql))
+                {
+                    //command.Parameters.AddWithValue("@ItemIDs", "'ID001','ID002'");
+                    for (int i=0; i< 5; i++) {
+                        command.Parameters.AddWithValue("@"+i.ToString()
+                            , (columns.ElementAtOrDefault(i)==null?"": columns.ElementAtOrDefault(i)));
+                    }
+                    command.Connection = conn;
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items[(String)reader["ItemID"]] = new Models.Item(
+                                         1
+                                       , (String)reader["ItemID"]
+                                       , (String)reader["Name"]
+                                       , (String)reader["Description"]
+                                       , (String)reader["Type"]
+                                    );
+                        }
+                    }
+                }
+            }
+        }
     }
 }
