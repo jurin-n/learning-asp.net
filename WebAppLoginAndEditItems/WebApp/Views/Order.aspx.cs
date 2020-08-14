@@ -21,6 +21,12 @@ namespace WebApp.Views
                 return;
             }
 
+            if (Session.SessionID.Length > 0)
+            {
+                OrderId.Text=(String)Session["OrderId"];
+                OrderDescription.Text = (String)Session["OrderDescription"];
+            }
+
             if (Request.QueryString["Id"] == null)
             {
                 //クエリにIdが含まれてない場合、処理せず終了
@@ -53,14 +59,98 @@ namespace WebApp.Views
 
         public IEnumerable<WebApp.Models.Item> GetItems([QueryString("Id")] string orderId)
         {
-            if(orderId == null || orderId.Trim()=="")
+            if (Session["BulkRegistration"] != null && Session["BulkRegistration"].ToString().Trim().Length > 0) 
+            {
+                String[] columns = Session["BulkRegistration"].ToString().Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
+                var items = new Dictionary<String, Models.Item>();
+
+                using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
+                {
+                    conn.Open();
+
+                    String sql = @"
+                        SELECT
+                             ItemID
+                            ,(CASE WHEN Name IS NULL THEN '' ELSE Name END) AS NAME
+                            ,(CASE WHEN Description IS NULL THEN '' ELSE Description END) AS Description
+                            ,(CASE WHEN Type IS NULL THEN 'NVARCHAR' ELSE Type END) AS Type
+                        FROM Items WHERE ItemID IN(@0,@1,@2,@3,@4)
+                        ";
+
+
+                    //String sql = "SELECT ItemID FROM Items WHERE ItemID IN('ID001','ID002')";
+                    using (SqlCommand command = new SqlCommand(sql))
+                    {
+                        //command.Parameters.AddWithValue("@ItemIDs", "'ID001','ID002'");
+                        for (int i = 0; i < 5; i++)
+                        {
+                            command.Parameters.AddWithValue("@" + i.ToString()
+                                , (columns.ElementAtOrDefault(i) == null ? "" : columns.ElementAtOrDefault(i)));
+                        }
+                        command.Connection = conn;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                items.Add(
+                                    (String)reader["ItemID"]
+                                    , new Models.Item(
+                                             1
+                                           , (String)reader["ItemID"]
+                                           , (String)reader["Name"]
+                                           , (String)reader["Description"]
+                                           , (String)reader["Type"]
+                                           , true
+                                        ));
+                            }
+                        }
+                    }
+                }
+
+
+                var list2 = new List<Models.Item>();
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    if (items.ContainsKey(columns[i]))
+                    {
+                        Models.Item item = items[columns[i]];
+                        list2.Add(
+                            new Models.Item(
+                                i + 1
+                               , item.Id
+                               , item.Name
+                               , item.Description
+                               , item.Type
+                               , item.isValid
+                            )
+                        );
+                    }
+                    else
+                    {
+                        list2.Add(
+                            new Models.Item(
+                                 i + 1
+                               , columns[i]
+                               , ""
+                               , ""
+                               , ""
+                               , false
+                            )
+                        );
+                    }
+                }
+                return list2;
+            }
+
+
+            if (orderId == null || orderId.Trim()=="")
             {
                 return new List<Models.Item>() {
-                    new Models.Item(1,"","","",""),
-                    new Models.Item(2,"","","",""),
-                    new Models.Item(3,"","","",""),
-                    new Models.Item(4,"","","",""),
-                    new Models.Item(5,"","","","")
+                    new Models.Item(1,"","","","",true),
+                    new Models.Item(2,"","","","",true),
+                    new Models.Item(3,"","","","",true),
+                    new Models.Item(4,"","","","",true),
+                    new Models.Item(5,"","","","",true)
                 };
             }
 
@@ -99,6 +189,7 @@ namespace WebApp.Views
                                    ,(String)reader["Name"]
                                    ,(String)reader["Description"]
                                    ,(String)reader["Type"]
+                                   ,true
                                 )
                             );
                         }
@@ -191,55 +282,16 @@ namespace WebApp.Views
         private void UpdateOrder()
         {
         }
+
         protected void ColumnsBulkRegistration(object sender, EventArgs e)
         {
-            String[] columns = BulkRegistration.Text.Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
-            var items = new Dictionary<String, Models.Item>();
+            //セッションに格納
+            Session["OrderId"] = OrderId.Text;
+            Session["OrderDescription"] = OrderDescription.Text;
+            Session["BulkRegistration"] = BulkRegistration.Text;
 
-            foreach (String c in columns)
-            {
-                items.Add(c,null);
-            }
-
-            var list = new List<String>();
-            using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
-            {
-                conn.Open();
-
-                String sql = @"
-                        SELECT
-                             ItemID
-                            ,(CASE WHEN Name IS NULL THEN '' ELSE Name END) AS NAME
-                            ,(CASE WHEN Description IS NULL THEN '' ELSE Description END) AS Description
-                            ,(CASE WHEN Type IS NULL THEN 'NVARCHAR' ELSE Type END) AS Type
-                        FROM Items WHERE ItemID IN(@0,@1,@2,@3,@4)
-                        ";
-
-
-                //String sql = "SELECT ItemID FROM Items WHERE ItemID IN('ID001','ID002')";
-                using (SqlCommand command = new SqlCommand(sql))
-                {
-                    //command.Parameters.AddWithValue("@ItemIDs", "'ID001','ID002'");
-                    for (int i=0; i< 5; i++) {
-                        command.Parameters.AddWithValue("@"+i.ToString()
-                            , (columns.ElementAtOrDefault(i)==null?"": columns.ElementAtOrDefault(i)));
-                    }
-                    command.Connection = conn;
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            items[(String)reader["ItemID"]] = new Models.Item(
-                                         1
-                                       , (String)reader["ItemID"]
-                                       , (String)reader["Name"]
-                                       , (String)reader["Description"]
-                                       , (String)reader["Type"]
-                                    );
-                        }
-                    }
-                }
-            }
+            //自身のURLにリダイレクトし、GetItemsメソッドを実行させる。
+            Response.Redirect(Request.Path);
         }
     }
 }

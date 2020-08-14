@@ -29,7 +29,8 @@
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                     <asp:ListView runat="server"
                                         SelectMethod="GetItems"
-                                        ItemType="WebApp.Models.Item" 
+                                        ItemType="WebApp.Models.Item"
+                                        ID="ItemColumns"
                                     >
                                         <LayoutTemplate>
                                             <div id="item-columns" class="my-1">
@@ -70,7 +71,8 @@
                                                     <input type="text" name="ItemNo" value="<%#: Item.No %>" class="form-control form-control-sm" />
                                                 </div>
                                                 <div class="col-2 col-lg-2">
-                                                    <input type="text" name="ItemId" value="<%#: Item.Id %>" class="form-control form-control-sm"/>
+                                                    <input type="text" name="ItemId" value="<%#: Item.Id %>" class="form-control form-control-sm <%#: (Item.isValid?"":"border-danger") %>"/>
+                                                    <p class="text-danger <%#: (Item.isValid?"invisible":"") %>">存在する項目IDを指定してください。</p>
                                                     <%--
                                                     asp:TextBox を使うとinputタグのname属性がASP.NETで自動採番される。
                                         　　        このため、Add 5 rowsボタンクリックでJavaScriptつかって追加したカラムの
