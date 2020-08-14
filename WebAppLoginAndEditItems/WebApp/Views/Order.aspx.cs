@@ -56,11 +56,11 @@ namespace WebApp.Views
             if(orderId == null || orderId.Trim()=="")
             {
                 return new List<Models.Item>() {
-                    new Models.Item(1,"","","","",5),
-                    new Models.Item(2,"","","","",5),
-                    new Models.Item(3,"","","","",5),
-                    new Models.Item(4,"","","","",5),
-                    new Models.Item(5,"","","","",5)
+                    new Models.Item(1,"","","",""),
+                    new Models.Item(2,"","","",""),
+                    new Models.Item(3,"","","",""),
+                    new Models.Item(4,"","","",""),
+                    new Models.Item(5,"","","","")
                 };
             }
 
@@ -79,7 +79,6 @@ namespace WebApp.Views
                         ,(CASE WHEN T2.Name IS NULL THEN '' ELSE T2.Name END) AS NAME
                         ,(CASE WHEN T2.Description IS NULL THEN '' ELSE T2.Description END) AS Description
                         ,(CASE WHEN T2.Type IS NULL THEN 'NVARCHAR' ELSE T2.Type END) AS Type
-                        ,T1.Quantity
                     FROM Orders_Items T1 LEFT JOIN Items T2
                     ON T1.ItemID = T2.ItemID
                     WHERE T1.OrderId = @OrderId ORDER BY T1.No
@@ -100,7 +99,6 @@ namespace WebApp.Views
                                    ,(String)reader["Name"]
                                    ,(String)reader["Description"]
                                    ,(String)reader["Type"]
-                                   ,(int)reader["Quantity"]
                                 )
                             );
                         }
@@ -157,7 +155,7 @@ namespace WebApp.Views
                     using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
                     {
 
-                        String insertSql = "INSERT INTO Orders_Items(OrderID,ItemID,No,Quantity) Values(@OrderID,@ItemID,@No,@Quantity)";
+                        String insertSql = "INSERT INTO Orders_Items(OrderID,ItemID,No) Values(@OrderID,@ItemID,@No)";
                         using (SqlCommand command = new SqlCommand(insertSql))
                         {
                             conn.Open();
@@ -173,7 +171,6 @@ namespace WebApp.Views
                                 command.Parameters.AddWithValue("@OrderID", OrderId.Text);
                                 command.Parameters.AddWithValue("@No", Request.Form.GetValues("ItemNo").GetValue(i));
                                 command.Parameters.AddWithValue("@ItemID", Request.Form.GetValues("ItemId").GetValue(i));
-                                command.Parameters.AddWithValue("@Quantity", Request.Form.GetValues("ItemQuantity").GetValue(i));
 
                                 //TODO: INSERT INTOをループの回数繰り返しているのか（実際どのようなSQLが発行されているのか）確認する。
                                 command.ExecuteNonQuery();

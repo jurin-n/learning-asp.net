@@ -56,8 +56,7 @@ GO
 CREATE TABLE [dbo].[Orders_Items](
     [OrderID] [nvarchar](32) NOT NULL,
     [ItemID] [nvarchar](32) NOT NULL,
-    [No] [int] NOT NULL,
-    [Quantity] [int] NOT NULL
+    [No] [int] NOT NULL
 CONSTRAINT [PK_Orders_Items] PRIMARY KEY CLUSTERED   
 (  
 [OrderID] ASC,
@@ -65,7 +64,7 @@ CONSTRAINT [PK_Orders_Items] PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]  
 
 GO
-
+/*
 ALTER TABLE [Orders_Items]
    ADD CONSTRAINT FK_Orders_Items_01 FOREIGN KEY (OrderID)
       REFERENCES [Orders] (OrderID)
@@ -77,6 +76,7 @@ ALTER TABLE [Orders_Items]
       REFERENCES [Items] (ItemID)
 
 GO
+*/
 
 --データ登録
 INSERT INTO Users (UserId,Name,Password,CreatedOn) Values('test-user','テストユーザ','test-password','2020-07-24');
