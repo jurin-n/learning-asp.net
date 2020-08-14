@@ -34,6 +34,7 @@ CREATE TABLE [dbo].[Items](
     [ItemID] [nvarchar](32) NOT NULL,  
     [Name] [nvarchar](50) NULL,  
     [Description] [nvarchar](512) NULL,
+    [Type] [nvarchar](16) NULL,
     [CreatedOn] [datetime] NOT NULL
 CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED   
 (  

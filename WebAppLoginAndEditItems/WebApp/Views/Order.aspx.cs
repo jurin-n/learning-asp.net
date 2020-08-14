@@ -56,11 +56,11 @@ namespace WebApp.Views
             if(orderId == null || orderId.Trim()=="")
             {
                 return new List<Models.Item>() {
-                    new Models.Item(1,"","",5),
-                    new Models.Item(2,"","",5),
-                    new Models.Item(3,"","",5),
-                    new Models.Item(4,"","",5),
-                    new Models.Item(5,"","",5)
+                    new Models.Item(1,"","","","",5),
+                    new Models.Item(2,"","","","",5),
+                    new Models.Item(3,"","","","",5),
+                    new Models.Item(4,"","","","",5),
+                    new Models.Item(5,"","","","",5)
                 };
             }
 
@@ -77,6 +77,8 @@ namespace WebApp.Views
                         ,T1.No
                         ,T1.ItemID
                         ,(CASE WHEN T2.Name IS NULL THEN '' ELSE T2.Name END) AS NAME
+                        ,(CASE WHEN T2.Description IS NULL THEN '' ELSE T2.Description END) AS Description
+                        ,(CASE WHEN T2.Type IS NULL THEN 'NVARCHAR' ELSE T2.Type END) AS Type
                         ,T1.Quantity
                     FROM Orders_Items T1 LEFT JOIN Items T2
                     ON T1.ItemID = T2.ItemID
@@ -96,6 +98,8 @@ namespace WebApp.Views
                                     (int)reader["No"]
                                    ,(String)reader["ItemID"]
                                    ,(String)reader["Name"]
+                                   ,(String)reader["Description"]
+                                   ,(String)reader["Type"]
                                    ,(int)reader["Quantity"]
                                 )
                             );
@@ -106,7 +110,7 @@ namespace WebApp.Views
             return list;
         }
 
-        public String getSelected(int value, int currentValue)
+        public String getSelected(String value, String currentValue)
         {
             if (value.Equals(currentValue))
             {

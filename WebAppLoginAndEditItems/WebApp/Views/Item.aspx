@@ -12,6 +12,14 @@
                         <div class="form-group">
                             <p class="h4">アイテムID</p>
                             <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="ItemId" placeholder="ID001" />
+                            <%--<input type="text" class="form-control" name="ItemId" placeholder="ID001" />--%>
+                            <asp:RequiredFieldValidator
+                                ID="Required_ItemId"
+                                runat="server"
+                                ControlToValidate="ItemId"
+                                ErrorMessage="アイテムIDは必須入力です。"
+                                CssClass="text-danger"
+                                />
                         </div>
                         <div class="form-group">
                             <p class="h4">名前</p>

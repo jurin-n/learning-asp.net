@@ -10,11 +10,15 @@
                 <div class="card-body">
                     <form id="form1" runat="server">
                         <div class="form-group">
-                            <p class="h4">オーダーID</p>
-                            <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="OrderId" placeholder="ORDER-001" />
+                            <p class="h4">ID</p>
+                            <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="OrderId" placeholder="xxxx-001" />
                         </div>
                         <div class="form-group">
-                            <p class="h4">アイテム項目</p>
+                            <p class="h4">説明</p>
+                            <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" ID="OrderDescription" placeholder="説明を入力。" />
+                        </div>
+                        <div class="form-group">
+                            <p class="h4">項目</p>
                             <asp:ListView runat="server"
                                 SelectMethod="GetItems"
                                 ItemType="WebApp.Models.Item" 
@@ -26,14 +30,17 @@
                                                 <div class="col-2 col-lg-1">
                                                     No
                                                 </div>
-                                                <div class="col-3 col-lg-4">
-                                                    アイテムID
+                                                <div class="col-2 col-lg-2">
+                                                    項目ID
                                                 </div>
                                                 <div class="col">
                                                     名称
                                                 </div>
+                                                <div class="col-3">
+                                                    説明
+                                                </div>
                                                 <div class="col">
-                                                    数量
+                                                    データ型
                                                 </div>
                                             </div>
                                         </div>
@@ -54,7 +61,7 @@
                                         <div class="col-2 col-lg-1">
                                             <input type="text" name="ItemNo" value="<%#: Item.No %>" class="form-control form-control-sm" />
                                         </div>
-                                        <div class="col-3 col-lg-4">
+                                        <div class="col-2 col-lg-2">
                                             <input type="text" name="ItemId" value="<%#: Item.Id %>" class="form-control form-control-sm"/>
                                             <%--
                                             asp:TextBox を使うとinputタグのname属性がASP.NETで自動採番される。
@@ -68,14 +75,13 @@
                                         <div class="col">
                                             <input type="text" name="ItemName" value="<%#: Item.Name %>" class="form-control form-control-sm"/>
                                         </div>
+                                        <div class="col-3">
+                                            <textarea name="ItemDescription" rows="3" class="form-control form-control-sm"><%#: Item.Description %></textarea>
+                                        </div>
                                         <div class="col">
-                                            <select name="ItemQuantity" class="form-control form-control-sm">
-                                                <option value="5"  <%#: getSelected(5, Item.Quantity) %>>5</option>
-                                                <option value="10" <%#: getSelected(10, Item.Quantity) %>>10</option>
-                                                <option value="15" <%#: getSelected(15, Item.Quantity) %>>15</option>
-                                                <option value="20" <%#: getSelected(20, Item.Quantity) %>>20</option>
-                                                <option value="25" <%#: getSelected(25, Item.Quantity) %>>25</option>
-                                                <option value="30" <%#: getSelected(30, Item.Quantity) %>>30</option>
+                                            <select name="ItemType" class="form-control form-control-sm">
+                                                <option value="NVARCHAR"  <%#: getSelected("NVARCHAR", Item.Type) %>>NVARCHAR</option>
+                                                <option value="NUMBER" <%#: getSelected("NUMBER", Item.Type) %>>NUMBER</option>
                                             </select>                          
                                         </div>
                                     </div>
@@ -90,20 +96,19 @@
                             <div class="col-2 col-lg-1">
                                 <input type="text" name="ItemNo" value="" class="form-control form-control-sm" />
                             </div>
-                            <div class="col-3 col-lg-4">
+                            <div class="col-2 col-lg-2">
                                 <input type="text" name="ItemId" value="" class="form-control form-control-sm"/>
                             </div>
                             <div class="col">
                                 <input type="text" name="ItemName" value="" class="form-control form-control-sm"/>
                             </div>
+                            <div class="col-3">
+                                <textarea name="ItemDescription" rows="3" class="form-control form-control-sm"></textarea>
+                            </div>
                             <div class="col">
-                                <select name="ItemQuantity" class="form-control form-control-sm">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="25">25</option>
-                                    <option value="30">30</option>
+                                <select name="ItemType" class="form-control form-control-sm">
+                                    <option value="NVARCHAR">NVARCHAR</option>
+                                    <option value="NUMBER">NUMBER</option>
                                 </select>                          
                             </div>
                         </div>
