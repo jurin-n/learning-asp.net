@@ -22,10 +22,12 @@
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="add-columns-tab" data-toggle="tab" href="#nav-textarea" role="tab" aria-controls="nav-textarea" aria-selected="false">一括入力</a>
-                                    <a class="nav-item nav-link" id="add-column-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">個別入力</a>
+                                    <a class="nav-item nav-link" id="add-column-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-list" aria-selected="true">個別入力</a>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
+                                <asp:HiddenField ID="SelectedTab" value="" runat="server"/>
+
                                 <!-- 一括入力タブ -->
                                 <div class="tab-pane fade show active" id="nav-textarea" role="tabpanel" aria-labelledby="nav-textarea-tab">
                                     <div class="my-1">
@@ -42,7 +44,7 @@
                                     </div>
                                 </div>
                                 <!-- 個別入力タブ -->
-                                <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
                                     <asp:ListView runat="server"
                                         SelectMethod="GetItems"
                                         ItemType="WebApp.Models.Item"
@@ -197,6 +199,18 @@
             $("#add-column-tab").on("click", function () {
                 console.log('AddColumnTab');
             });
+
+
+            //項目入力タブの初期表示タブを設定
+            if ($("#nav-tabContent input:hidden[name$=SelectedTab]").val() === 'bulk') {
+                $("#add-columns-tab").removeClass("active")
+                $("#add-column-tab").addClass("active")              
+
+                $("#nav-textarea").removeClass("show")
+                $("#nav-textarea").removeClass("active")                
+                $("#nav-list").addClass("show")
+                $("#nav-list").addClass("active")
+            }
         });
     </script>
 </asp:Content>

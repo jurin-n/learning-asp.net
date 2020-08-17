@@ -59,8 +59,12 @@ namespace WebApp.Views
 
         public IEnumerable<WebApp.Models.Item> GetItems([QueryString("Id")] string orderId)
         {
+            SelectedTab.Value = "";
+
             if (Session["BulkRegistration"] != null && Session["BulkRegistration"].ToString().Trim().Length > 0) 
             {
+                SelectedTab.Value = "bulk";
+
                 String[] columns = Session["BulkRegistration"].ToString().Replace("\r\n", "\n").Split(new[] { '\n', '\r' });
                 var items = new Dictionary<String, Models.Item>();
 
