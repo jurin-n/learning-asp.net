@@ -42,22 +42,13 @@ namespace WebApp.Views
         protected global::System.Web.UI.WebControls.TextBox OrderDescription;
 
         /// <summary>
-        /// ItemColumns コントロール。
+        /// AddColumnsButton コントロール。
         /// </summary>
         /// <remarks>
         /// 自動生成されたフィールド。
         /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView ItemColumns;
-
-        /// <summary>
-        /// ColumnsBulkRegistrationButton コントロール。
-        /// </summary>
-        /// <remarks>
-        /// 自動生成されたフィールド。
-        /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ColumnsBulkRegistrationButton;
+        protected global::System.Web.UI.WebControls.Button AddColumnsButton;
 
         /// <summary>
         /// BulkRegistration コントロール。
@@ -67,6 +58,15 @@ namespace WebApp.Views
         /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox BulkRegistration;
+
+        /// <summary>
+        /// ItemColumns コントロール。
+        /// </summary>
+        /// <remarks>
+        /// 自動生成されたフィールド。
+        /// 変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView ItemColumns;
 
         /// <summary>
         /// AddOrUpdateButton コントロール。

@@ -111,6 +111,8 @@ namespace WebApp.Views
                 var list2 = new List<Models.Item>();
                 for (int i = 0; i < columns.Length; i++)
                 {
+                    if(columns[i].Trim().Length!=0)
+                    {
                     if (items.ContainsKey(columns[i]))
                     {
                         Models.Item item = items[columns[i]];
@@ -137,6 +139,7 @@ namespace WebApp.Views
                                , false
                             )
                         );
+                    }
                     }
                 }
                 return list2;
@@ -283,7 +286,7 @@ namespace WebApp.Views
         {
         }
 
-        protected void ColumnsBulkRegistration(object sender, EventArgs e)
+        protected void AddColumns(object sender, EventArgs e)
         {
             //セッションに格納
             Session["OrderId"] = OrderId.Text;

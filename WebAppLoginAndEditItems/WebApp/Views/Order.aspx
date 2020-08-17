@@ -21,12 +21,28 @@
                             <p class="h4">項目</p>
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">個別入力</a>
-                                    <a class="nav-item nav-link" id="nav-textarea-tab" data-toggle="tab" href="#nav-textarea" role="tab" aria-controls="nav-textarea" aria-selected="false">一括入力</a>
+                                    <a class="nav-item nav-link active" id="add-columns-tab" data-toggle="tab" href="#nav-textarea" role="tab" aria-controls="nav-textarea" aria-selected="false">一括入力</a>
+                                    <a class="nav-item nav-link" id="add-column-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">個別入力</a>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <!-- 一括入力タブ -->
+                                <div class="tab-pane fade show active" id="nav-textarea" role="tabpanel" aria-labelledby="nav-textarea-tab">
+                                    <div class="my-1">
+                                        <asp:Button runat="server" OnClick="AddColumns" Text="一括入力内容反映" CssClass="btn btn-secondary btn-sm" Id="AddColumnsButton"/>
+                                        <span>※項目を改行区切りで入力。</span>
+                                        <div class="row my-1">
+                                            <div class="col-6">
+                                                <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="BulkRegistration" rows="10" />
+                                            </div>
+                                            <div class="col-6">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 個別入力タブ -->
+                                <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                     <asp:ListView runat="server"
                                         SelectMethod="GetItems"
                                         ItemType="WebApp.Models.Item"
@@ -98,19 +114,6 @@
                                         </ItemTemplate>
                                     </asp:ListView>
                                 </div>
-                                <div class="tab-pane fade" id="nav-textarea" role="tabpanel" aria-labelledby="nav-textarea-tab">
-                                    <div class="my-1">
-                                        <asp:Button runat="server" OnClick="ColumnsBulkRegistration" Text="一括入力内容反映" CssClass="btn btn-secondary btn-sm" Id="ColumnsBulkRegistrationButton"/>
-                                        <div class="row my-1">
-                                            <div class="col-6">
-                                                <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="BulkRegistration" rows="10" />
-                                            </div>
-                                            <div class="col-6">
-                                                左の入力欄に項目を改行区切りで入力。
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <asp:Button runat="server" OnClick="AddOrUpdate" Text="登録" CssClass="btn btn-primary btn-lg" Id="AddOrUpdateButton"/>
@@ -143,34 +146,57 @@
         </div>
     </main>
     <script>
-        // Add Rowボタンの処理
-        $( "#item-columns>.item-columns-footer a" ).on( "click", function() {
-            //テンプレート取得
-            let template = $("#html-template-001").children().clone();
+        $(function(){
+            // Add Rowボタンの処理
+            $( "#item-columns>.item-columns-footer a").on("click", function () {
+                //テンプレート取得
+                let template = $("#html-template-001").children().clone();
 
-            //テンプレート加工
-            let count = $(this)
-                            .parent()
-                                .parent()
-                                    .parent()
-                                        .children(".item-columns-body")
-                                            .children().length;
-            for (let i = 0; i < 5; i++) {
-                let newIndex = count + i + 1;
-                let newItem = template.clone();
-
-                //newItem.find("[name^='xxx-rnnn-']").each(function(){
-                //    $(this).attr('name',$(this).attr('name').replace('xxx-rnnn-','xxx-r'+newIndex.toString() +'-'));
-                //});
-
-                //テンプレートを一覧の下に挿入
-                $(this)
+                //テンプレート加工
+                let count = $(this)
                     .parent()
+                    .parent()
+                    .parent()
+                    .children(".item-columns-body")
+                    .children().length;
+                for (let i = 0; i < 5; i++) {
+                    let newIndex = count + i + 1;
+                    let newItem = template.clone();
+
+                    //newItem.find("[name^='xxx-rnnn-']").each(function(){
+                    //    $(this).attr('name',$(this).attr('name').replace('xxx-rnnn-','xxx-r'+newIndex.toString() +'-'));
+                    //});
+
+                    //テンプレートを一覧の下に挿入
+                    $(this)
                         .parent()
-                            .parent()
-                                .children(".item-columns-body")
-                                    .append(newItem);
-            }
+                        .parent()
+                        .parent()
+                        .children(".item-columns-body")
+                        .append(newItem);
+                }
+            });
+
+            //一括入力内容反映ボタンクリック時の処理
+            $("#AddColumnsButton").on("click", function () {
+                console.log('AddColumnsButton');
+            });
+
+            //一括入力タブクリック時の処理
+            $("#add-columns-tab").on("click", function () {
+                console.log('AddColumnsTab');
+                var textarea_value = "";
+                $("#item-columns>.item-columns-body input[name='ItemId']").each(function (index) {
+                    textarea_value+=($(this).val()+"\n");
+                });
+                console.log(textarea_value);
+                $('#nav-textarea textarea').val(textarea_value);
+            });
+
+            //個別入力タブクリック時の処理
+            $("#add-column-tab").on("click", function () {
+                console.log('AddColumnTab');
+            });
         });
     </script>
 </asp:Content>
