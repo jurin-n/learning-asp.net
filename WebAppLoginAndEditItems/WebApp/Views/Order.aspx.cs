@@ -15,46 +15,67 @@ namespace WebApp.Views
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack)
-            {
-                //submitボタン押すなどしPOSTした場合、処理せず終了
-                return;
-            }
+            //if (IsPostBack)
+            //{
+            //    //submitボタン押すなどしPOSTした場合、処理せず終了
+            //    return;
+            //}
 
-            if (Session.SessionID.Length > 0)
-            {
-                OrderId.Text=(String)Session["OrderId"];
-                OrderDescription.Text = (String)Session["OrderDescription"];
-            }
+            //if (Session.SessionID.Length > 0)
+            //{
+            //    OrderId.Text=(String)Session["OrderId"];
+            //    OrderDescription.Text = (String)Session["OrderDescription"];
+            //}
 
-            if (Request.QueryString["Id"] == null)
-            {
-                //クエリにIdが含まれてない場合、処理せず終了
-                return;
-            }
+            //if (Request.QueryString["Id"] == null)
+            //{
+            //    //クエリにIdが含まれてない場合、処理せず終了
+            //    return;
+            //}
 
-            /* 更新用画面として表示するための処理 */
-            //更新データ初期表示
-            using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
-            {
-                String sql = "SELECT OrderId FROM Orders WHERE OrderId=@OrderId";
-                conn.Open();
-                using (SqlCommand command = new SqlCommand(sql))
-                {
-                    command.Parameters.AddWithValue("@OrderId", Request.QueryString["Id"]);
+            ///* 更新用画面として表示するための処理 */
+            ////更新データ初期表示
+            //using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString()))
+            //{
+            //    String sql = "SELECT OrderId FROM Orders WHERE OrderId=@OrderId";
+            //    conn.Open();
+            //    using (SqlCommand command = new SqlCommand(sql))
+            //    {
+            //        command.Parameters.AddWithValue("@OrderId", Request.QueryString["Id"]);
 
-                    command.Connection = conn;
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        reader.Read();
-                        OrderId.Text = (String)reader["OrderId"];
-                    }
-                }
-            }
+            //        command.Connection = conn;
+            //        using (SqlDataReader reader = command.ExecuteReader())
+            //        {
+            //            reader.Read();
+            //            OrderId.Text = (String)reader["OrderId"];
+            //        }
+            //    }
+            //}
 
-            //コントロール設定
-            OrderId.ReadOnly = true;
-            AddOrUpdateButton.Text = "更新";
+            ////コントロール設定
+            //OrderId.ReadOnly = true;
+            //AddOrUpdateButton.Text = "更新";
+        }
+
+        public String getStringValueFromSession(
+            System.Web.SessionState.HttpSessionState s, String key)
+        {
+            return (s[key] == null ? "" : s[key].ToString());
+        }
+        public bool getBoolValueFromSession(
+            System.Web.SessionState.HttpSessionState s, String key)
+        {
+            return (s[key] == null ? false : (s[key].ToString().Equals("true")? true:false));
+        }
+
+        public WebApp.Models.Order GetOrder()
+        {
+            return new WebApp.Models.Order(
+                  getStringValueFromSession(Session, "OrderId")
+                , getStringValueFromSession(Session, "OrderDescription")
+                , getStringValueFromSession(Session, "BulkRegistration")
+                , getBoolValueFromSession(Session, "isBulk")
+                );
         }
 
         public IEnumerable<WebApp.Models.Item> GetItems([QueryString("Id")] string orderId)
@@ -238,7 +259,7 @@ namespace WebApp.Views
                         String insertSql = "INSERT INTO Orders(OrderID,CreatedOn) Values(@OrderID,@CreatedOn)";
                         using (SqlCommand command = new SqlCommand(insertSql))
                         {
-                            command.Parameters.AddWithValue("@OrderID", OrderId.Text);
+                            command.Parameters.AddWithValue("@OrderID", Request.Form["OrderId"]);
                             command.Parameters.AddWithValue("@CreatedOn", "2020-07-24");
                             conn.Open();
                             command.Connection = conn;
@@ -262,7 +283,8 @@ namespace WebApp.Views
                                 //System.Diagnostics.Debug.WriteLine(Request.Form.GetValues("ItemName").GetValue(i));
                                 //System.Diagnostics.Debug.WriteLine(Request.Form.GetValues("ItemQuantity").GetValue(i));
                                 command.Parameters.Clear();
-                                command.Parameters.AddWithValue("@OrderID", OrderId.Text);
+                                //command.Parameters.AddWithValue("@OrderID", OrderId.Text);
+                                command.Parameters.AddWithValue("@OrderID", Request.Form["OrderId"]);
                                 command.Parameters.AddWithValue("@No", Request.Form.GetValues("ItemNo").GetValue(i));
                                 command.Parameters.AddWithValue("@ItemID", Request.Form.GetValues("ItemId").GetValue(i));
 
@@ -289,9 +311,10 @@ namespace WebApp.Views
         protected void AddColumns(object sender, EventArgs e)
         {
             //セッションに格納
-            Session["OrderId"] = OrderId.Text;
-            Session["OrderDescription"] = OrderDescription.Text;
-            Session["BulkRegistration"] = BulkRegistration.Text;
+            Session["OrderId"] = Request.Form["OrderId"];
+            Session["OrderDescription"] = Request.Form["OrderDescription"];
+            Session["BulkRegistration"] = Request.Form["BulkRegistration"];
+            Session["isBulk"] = "true";
 
             //自身のURLにリダイレクトし、GetItemsメソッドを実行させる。
             Response.Redirect(Request.Path);

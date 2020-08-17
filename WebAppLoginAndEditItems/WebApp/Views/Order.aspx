@@ -9,45 +9,51 @@
             <div class="card" style="border: none;">
                 <div class="card-body">
                     <form id="form1" runat="server">
-                        <div class="form-group">
-                            <p class="h4">ID</p>
-                            <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="OrderId" placeholder="xxxx-001" />
-                        </div>
-                        <div class="form-group">
-                            <p class="h4">説明</p>
-                            <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" ID="OrderDescription" placeholder="説明を入力。" />
-                        </div>
-                        <div class="form-group">
-                            <p class="h4">項目</p>
-                            <nav>
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="add-columns-tab" data-toggle="tab" href="#nav-textarea" role="tab" aria-controls="nav-textarea" aria-selected="false">一括入力</a>
-                                    <a class="nav-item nav-link" id="add-column-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">個別入力</a>
-                                </div>
-                            </nav>
-                            <div class="tab-content" id="nav-tabContent">
-                                <!-- 一括入力タブ -->
-                                <div class="tab-pane fade show active" id="nav-textarea" role="tabpanel" aria-labelledby="nav-textarea-tab">
-                                    <div class="my-1">
-                                        <asp:Button runat="server" OnClick="AddColumns" Text="一括入力内容反映" CssClass="btn btn-secondary btn-sm" Id="AddColumnsButton"/>
-                                        <span>※項目を改行区切りで入力。</span>
-                                        <div class="row my-1">
-                                            <div class="col-6">
-                                                <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="BulkRegistration" rows="10" />
-                                            </div>
-                                            <div class="col-6">
-                                                
+                        <asp:FormView ID="orderDetail" runat="server" ItemType="WebApp.Models.Order" SelectMethod ="GetOrder" RenderOuterTable="false">
+                        <ItemTemplate>
+
+                            <div class="form-group">
+                                <p class="h4">ID</p>
+                                <%-- <asp:TextBox runat="server" TextMode="SingleLine" CssClass="form-control" ID="OrderId" placeholder="xxxx-001" />--%>
+                                <input type="text" class="form-control" name="OrderId" placeholder="IDを入力してください。" value="<%#: Item.OrderId %>"/>
+                            </div>
+                            <div class="form-group">
+                                <p class="h4">説明</p>
+                                <%-- <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" ID="OrderDescription" placeholder="説明を入力。" />--%>
+                                <textarea name="OrderDescription" rows="3" class="form-control"><%#: Item.OrderDescription %></textarea>
+                            </div>
+                            <div class="form-group">
+                                <p class="h4">項目</p>
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link <%#: (Item.isBulk?"":"active") %>" id="add-columns-tab" data-toggle="tab" href="#nav-textarea" role="tab" aria-controls="nav-textarea" aria-selected="false">一括入力</a>
+                                        <a class="nav-item nav-link <%#: (Item.isBulk?"active":"") %>" id="add-column-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-list" aria-selected="true">個別入力</a>
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <!-- 一括入力タブ -->
+                                    <div class="tab-pane fade <%#: (Item.isBulk?"":"show active") %>" id="nav-textarea" role="tabpanel" aria-labelledby="nav-textarea-tab">
+                                        <div class="my-1">
+                                            <asp:Button runat="server" OnClick="AddColumns" Text="一括入力内容反映" CssClass="btn btn-secondary btn-sm" Id="AddColumnsButton"/>
+                                            <span>※項目を改行区切りで入力。</span>
+                                            <div class="row my-1">
+                                                <div class="col-6">
+                                                    <%-- <asp:TextBox runat="server" TextMode="MultiLine" CssClass="form-control" Id="BulkRegistration" rows="10" /> --%>
+                                                    <textarea name="BulkRegistration" rows="10" class="form-control"><%#: Item.BulkRegistration %></textarea>
+                                                </div>
+                                                <div class="col-6">
+                                                    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- 個別入力タブ -->
-                                <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <asp:ListView runat="server"
-                                        SelectMethod="GetItems"
-                                        ItemType="WebApp.Models.Item"
-                                        ID="ItemColumns"
-                                    >
+                                    <!-- 個別入力タブ -->
+                                    <div class="tab-pane fade <%#: (Item.isBulk?"show active":"") %>" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+                                        <asp:ListView runat="server"
+                                            SelectMethod="GetItems"
+                                            ItemType="WebApp.Models.Item"
+                                            ID="ItemColumns"
+                                        >
                                         <LayoutTemplate>
                                             <div id="item-columns" class="my-1">
                                                 <div class="item-columns-header border-bottom border-light-2">
@@ -112,11 +118,14 @@
                                                 </div>
                                             </div>
                                         </ItemTemplate>
-                                    </asp:ListView>
+                                        </asp:ListView>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <asp:Button runat="server" OnClick="AddOrUpdate" Text="登録" CssClass="btn btn-primary btn-lg" Id="AddOrUpdateButton"/>
+                            <asp:Button runat="server" OnClick="AddOrUpdate" Text="登録" CssClass="btn btn-primary btn-lg" Id="AddOrUpdateButton"/>
+
+                        </ItemTemplate>
+                        </asp:FormView>
                     </form>
                     <div class="d-none" id="html-template-001">
                         <!-- Add 5 rowsボタンで利用するHTMLテンプレート -->
@@ -145,6 +154,7 @@
             </div>
         </div>
     </main>
+
     <script>
         $(function(){
             // Add Rowボタンの処理
